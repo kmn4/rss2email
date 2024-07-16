@@ -197,6 +197,7 @@ def smtp_send(recipient, message, config=None, section='DEFAULT'):
 
     _LOG.debug('sending message to {} via {}'.format(recipient, server))
     ssl = config.getboolean(section, 'smtp-ssl')
+    allow_unsafe = config.getboolean(section, 'smtp-auth-allow-unsafe')
     smtp_auth = config.getboolean(section, 'smtp-auth')
     try:
         if ssl or smtp_auth:
@@ -213,7 +214,7 @@ def smtp_send(recipient, message, config=None, section='DEFAULT'):
         username = config.get(section, 'smtp-username')
         password = config.get(section, 'smtp-password')
         try:
-            if not ssl:
+            if not ssl and (smtp.has_extn('starttls') or not allow_unsafe):
                 smtp.starttls(context=context)
             smtp.login(username, password)
         except KeyboardInterrupt:

@@ -238,6 +238,7 @@ CONFIG['DEFAULT'] = _collections.OrderedDict((
         ('smtp-server', 'smtp.example.net'),
         ('smtp-port', '465'),
         ('smtp-ssl', str(False)),       # Connect to the SMTP server using SSL
+        ('smtp-auth-allow-unsafe', str(False)), # set to True to allow SMTP AUTH over unencrypted connection
         # LMTP configuration
         ('lmtp-auth', str(False)),      # set to True to use SMTP AUTH for LMTP authentication
         ('lmtp-username', 'username'),  # username for SMTP AUTH
