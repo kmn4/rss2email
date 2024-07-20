@@ -212,6 +212,11 @@ def smtp_send(recipient, message, config=None, section='DEFAULT'):
         raise _error.SMTPConnectionError(server=server) from e
     if smtp_auth:
         username = config.get(section, 'smtp-username')
+        password_file = config.get(section, 'smtp-password-file')
+        if len(password_file) > 0:
+            with open(password_file, 'r') as f:
+                password = f.read().strip()
+                config.set(section, 'smtp-password', password)
         password = config.get(section, 'smtp-password')
         try:
             if not ssl and (smtp.has_extn('starttls') or not allow_unsafe):
